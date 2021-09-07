@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="en">
+   <head>
+      <title>Armado 1</title>
+      <meta charset="utf-8" />
+      <link rel="stylesheet" href="style.css" />
+      <script src="/JS/app.js" defer></script>
+      <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+      <script
+         id="MathJax-script"
+         async
+         src="https://cdn.jsdelivr.net/npm/mathjax@3.0.1/es5/tex-mml-chtml.js"
+      ></script>
+      <link
+         rel="stylesheet"
+         type="text/css"
+         href="https://cdn.jsdelivr.net/gh/aaaakshat/cm-web-fonts@latest/fonts.css"
+      />
+   </head>
+
+   <body>
+      <header>
+         <h1 id="main-title">
+            Diseño Elastico en Viga de Concreto Armado a tensión
+         </h1>
+
+         <!-- Navegador -->
+         <nav>
+            <a href="./Aprendizaje.html">Aprendizaje</a>
+         </nav>
+      </header>
+      <br />
+
+      <div>
+         <form action="">
+            <div class="wrap">
+               <label for="baseV">Base</label>
+               <input type="text" name="base" id="baseV" placeholder="b" />
+
+               <label for="alturaV">Altura</label>
+               <input type="text" name="altura" id="alturaV" placeholder="h" />
+
+               <label for="baseV">Peralte efectivo</label>
+               <input
+                  type="text"
+                  name="peralte"
+                  id="peralteEfV"
+                  placeholder="d"
+               />
+
+               <label for="resistenciaCV">Resistencia del Concreto</label>
+               <input
+                  type="text"
+                  name="resistenciaConcreto"
+                  id="resistenciaCV"
+                  placeholder="fcc"
+               />
+
+               <label for="resistenciaAV">Resistencia del Acero</label>
+               <input
+                  type="text"
+                  name="resistenciaAcero"
+                  id="resistenciaAV"
+                  placeholder="fy"
+               />
+
+               <label for="nV">valor n</label>
+               <input type="text" name="n" id="nV" placeholder="n" />
+
+               <label for="momentoMaxV"
+                  >Momento máximo que resiste la viga</label
+               >
+               <input
+                  type="text"
+                  name="MomentoMaximo"
+                  id="momentoMaxV"
+                  placeholder="M"
+               />
+            </div>
+            <br />
+            <button type="button" onclick="captura()">Calcular</button>
+         </form>
+      </div>
+
+      <div class="container">
+         <p class="equation">\[\rho =&nbsp\]&nbsp</p>
+         <p id="answer" class="equation"></p>
+      </div>
+
+      <footer></footer>
+   </body>
+</html>
