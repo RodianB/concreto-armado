@@ -1,30 +1,40 @@
-/* * {
-   padding: 0;
-   margin: 0;
-} */
+@import url("https://fonts.googleapis.com/css2?family=Source+Sans+Pro&display=swap");
+
+* {
+   font-family: "Source Sans Pro", sans-serif;
+}
 
 #main-title {
-   color: rgb(255, 255, 255);
+   color: white;
    background-color: rgb(67, 136, 119);
-   padding: 10px 1% 10px 1%;
    text-align: center;
 }
 
 .container {
    display: flex;
-   justify-content: center;
-   font-size: 35px;
    align-items: center;
+   justify-content: center;
+   flex-wrap: wrap;
 }
 
-.equation {
-   font-family: "Computer Modern Serif", serif;
+.flex {
+   width: 300px;
+   padding-right: 20px;
+}
+
+.math {
+   font-family: "Mathcad UniMath Prime", serif;
+   font-style: italic;
    display: flex;
+}
+
+.math span {
+   font-family: "Mathcad UniMath Prime", serif;
+   font-style: italic;
 }
 
 .wrap {
    display: flex;
-   justify-content: flex-start;
    flex-direction: column;
 }
 
