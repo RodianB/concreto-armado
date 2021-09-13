@@ -2,105 +2,127 @@
 // import "formulas.js";
 
 //----------------------- VARIABLES ------------------//
-const captura = function () {
+let b, h, d, fcc, fy, Ec, Es, n, M;
+
+// Simbolos DOM
+const sym = {
+   rho: "<span>ρ</span>",
+   As: "<span>A<sub>s</sub></span>",
+};
+console.log(sym.rho);
+//---------------------- FUNCIONES -----------------------//
+
+function redondear(numero, decimales) {
+   return Number(numero.toFixed(decimales));
+}
+
+function redondearCifrasSig(numero, numeroCifras) {
+   let numeroStr = numero.toString().replace(".", "").split("");
+   let posicion = 0;
+
+   for (let i = 0; i < numeroStr.length; i++) {
+      if (numeroStr[i] !== "0") {
+         break;
+      }
+      posicion += 1;
+   }
+
+   let redondeo = Number(numero.toFixed(posicion + numeroCifras - 1));
+
+   return redondeo;
+}
+
+function calcRhoMinimo(resistenciaConcreto, resistenciaAcero) {
+   let pMin1 = (0.25 * resistenciaConcreto ** 0.5) / resistenciaAcero;
+   let pMin2 = 1.4 / resistenciaAcero;
+
+   return Math.max(pMin1, pMin2);
+}
+
+function calcAs(rho, base, peralteEfectivo) {
+   return rho * base * peralteEfectivo;
+}
+
+function calcAsMinimo(resistenciaConcreto, resistenciaAcero, b, d) {
+   let AsMin_1 = ((0.25 * resistenciaConcreto ** 0.5) / resistenciaAcero) * (b * 100 * (d * 100));
+   let AsMin_2 = (1.4 * b * 100 * d * 100) / resistenciaAcero;
+
+   return Math.max(AsMin_1, AsMin_2);
+}
+
+function calcModuloConcreto(resistenciaConcreto) {
+   return (4700 * resistenciaConcreto ** 0.5).toFixed(-2);
+}
+
+function calcVariables(rho) {
+   let k = -n * rho + ((n * rho) ** 2 + 2 * n * rho) ** (1 / 2),
+      j = 1 - k / 3,
+      fc = ((fy * 1000) / 2 / n) * (k / (1 - k)),
+      K = (fc * k * j) / 2;
+
+   return {
+      k: k,
+      j: j,
+      fc: fc,
+      K: K,
+   };
+}
+
+function calcMomentoC(rho) {
+   v = calcVariables(rho);
+
+   return v.K * b * d ** 2;
+}
+
+//Funciones del programa
+function seguirDividiendo(Momentoi, MomentoActual) {
+   let dividir = false;
+
+   if (Math.abs(Momentoi - MomentoActual) < 0.001) {
+      dividir = true;
+   }
+   return dividir;
+}
+
+// Incremento inicial
+let X = 0.001;
+
+// Carga al final de HTML
+window.onload = iniciar;
+
+function iniciar() {
+   const btnCalcular = document.querySelector("#btnCalcular");
+   btnCalcular.addEventListener("click", asignarVariables);
+}
+
+function asignarVariables() {
    //Dimensiones (m)
-   let b = document.querySelector("#baseV").value, //0.3
-      h = 0.5,
-      d = document.querySelector("#peralteEfV").value; //0.342
+
+   b = document.querySelector("#baseV").value; //0.3
+   h = 0.5;
+   d = document.querySelector("#peralteEfV").value; //0.342
 
    //Esfuerzos (MPa)
-   let fcc = document.querySelector("#resistenciaCV").value, //21.1
-      fy = document.querySelector("#resistenciaAV").value; //240
+   fcc = document.querySelector("#resistenciaCV").value; //21.1
+   fy = document.querySelector("#resistenciaAV").value; //240
 
    // Modulos de elasticidad (Mpa)
-   let Ec = 21600,
-      Es = 200000,
-      n = document.querySelector("#nV").value; //9.3
+   Ec = 17600;
+   Es = 200000;
+   n = document.querySelector("#nV").value; //9.3
 
    // Momento máx kN.m
-   let M = document.querySelector("#momentoMaxV").value; //35
+   M = document.querySelector("#momentoMaxV").value; //35
 
-   // Incremento inicial
-   let X = 0.001;
-
-   //---------------------- FUNCIONES -----------------------//
-
-   const redondear = function (numero, decimales) {
-      return Number(numero.toFixed(decimales));
-   };
-
-   const redondearCifrasSig = function (numero, numeroCifras) {
-      let numeroStr = numero.toString().replace(".", "").split("");
-      let posicion = 0;
-
-      for (let i = 0; i < numeroStr.length; i++) {
-         if (numeroStr[i] !== "0") {
-            break;
-         }
-         posicion += 1;
-      }
-
-      let redondeo = Number(numero.toFixed(posicion + numeroCifras - 1));
-
-      return redondeo;
-   };
-
-   const calcRhoMinimo = function (resistenciaConcreto, resistenciaAcero) {
-      let pMin1 = (0.25 * resistenciaConcreto ** 0.5) / resistenciaAcero;
-      let pMin2 = 1.4 / resistenciaAcero;
-
-      return Math.max(pMin1, pMin2);
-   };
-
-   const calcAs = function (rho, base, peralteEfectivo) {
-      return rho * base * peralteEfectivo;
-   };
-
-   const calcAsMinimo = function (resistenciaConcreto, resistenciaAcero, b, d) {
-      let AsMin_1 =
-         ((0.25 * resistenciaConcreto ** 0.5) / resistenciaAcero) *
-         (b * 100 * (d * 100));
-      let AsMin_2 = (1.4 * b * 100 * d * 100) / resistenciaAcero;
-
-      return Math.max(AsMin_1, AsMin_2);
-   };
-
-   const calcModuloConcreto = function (resistenciaConcreto) {
-      return (4700 * resistenciaConcreto ** 0.5).toFixed(-2);
-   };
-
-   const calcVariables = function (rho) {
-      let k = -n * rho + ((n * rho) ** 2 + 2 * n * rho) ** (1 / 2),
-         j = 1 - k / 3,
-         fc = ((fy * 1000) / 2 / n) * (k / (1 - k)),
-         K = (fc * k * j) / 2;
-
-      return {
-         k: k,
-         j: j,
-         fc: fc,
-         K: K,
-      };
-   };
-
-   const calcMomentoC = function (rho) {
-      v = calcVariables(rho);
-
-      return v.K * b * d ** 2;
-   };
-
-   //Funciones del programa
-   const seguirDividiendo = function (Momentoi, MomentoActual) {
-      let dividir = false;
-
-      if (Math.abs(Momentoi - MomentoActual) < 0.001) {
-         dividir = true;
-      }
-      return dividir;
-   };
-
-   //----------------------- PROGRAMA -----------------------//
-
+   if (!(b && h && d && fcc && fy && Ec && Es && n && M)) {
+      const divRellenar = document.querySelector("#rellenar");
+      divRellenar.textContent = "*Debe llenar todos los campos";
+   } else {
+      calculo();
+   }
+}
+//----------------------- PROGRAMA -----------------------//
+function calculo() {
    //Esfuerzos admisibles
    let fc = 0.45 * fcc,
       fs = 0.5 * fy;
@@ -143,21 +165,18 @@ const captura = function () {
 
    // Condición de cuantía minima
    if (p < pMin) {
-      console.log(
-         `El p calculado ${p.toFixed(6)} es menor al minimo ${pMin.toFixed(
-            6
-         )}, por tanto \n p = ${pMin.toFixed(6)}`
-      );
+      console.log(`El p calculado ${p.toFixed(6)} es menor al minimo ${pMin.toFixed(6)}, por tanto \n p = ${pMin.toFixed(6)}`);
    } else {
       console.log(`p = ${p.toFixed(6)}`);
    }
 
    // Imprime As y M convertidos y redondeados
    console.log(`As = ${(As * 10000).toFixed(4)} cm2
-M = ${calcMomentoC(p).toFixed(4)} kN.m`);
+   M = ${calcMomentoC(p).toFixed(4)} kN.m`);
 
-   // Pruebas
+   // respuesta en DOM
 
    const divAnswer = document.querySelector("#answer");
-   divAnswer.textContent = redondearCifrasSig(p, 4);
-};
+
+   divAnswer.innerHTML = `${sym.rho} = ${redondearCifrasSig(p, 4)}`;
+}
