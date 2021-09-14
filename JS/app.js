@@ -1,6 +1,6 @@
 //Importación de Modulos
 // import "formulas.js";
-
+window.onload = iniciar;
 //----------------------- VARIABLES ------------------//
 let b, h, d, fcc, fy, Ec, Es, n, M;
 
@@ -8,8 +8,28 @@ let b, h, d, fcc, fy, Ec, Es, n, M;
 const sym = {
    rho: "<span>ρ</span>",
    As: "<span>A<sub>s</sub></span>",
+   fcc: `<span>f'<sub>c</sub></span>`,
+   fy: "<span>f<sub>y</sub></span>",
+   Ec: "<span>E<sub>c</sub></span>",
+   Es: "<span>E<sub>s</sub></span>",
+   n: "<span>n</span>",
+   M: "<span>M</span>",
 };
-console.log(sym.rho);
+
+const spanFcc = document.querySelector("#fcc");
+spanFcc.innerHTML = `${sym.fcc} (MPa)`;
+
+const spanFy = document.querySelector("#fy");
+spanFy.innerHTML = `${sym.fy} (MPa)`;
+
+const spanEc = document.querySelector("#Ec");
+spanEc.innerHTML = `${sym.Ec} (MPa)`;
+
+const spanEs = document.querySelector("#Es");
+spanEs.innerHTML = `${sym.Es} (MPa)`;
+
+const spanM = document.querySelector("#Mmax");
+spanM.innerHTML = `${sym.M} (MPa)`;
 //---------------------- FUNCIONES -----------------------//
 
 function redondear(numero, decimales) {
@@ -88,7 +108,6 @@ function seguirDividiendo(Momentoi, MomentoActual) {
 let X = 0.001;
 
 // Carga al final de HTML
-window.onload = iniciar;
 
 function iniciar() {
    const btnCalcular = document.querySelector("#btnCalcular");
@@ -107,9 +126,9 @@ function asignarVariables() {
    fy = document.querySelector("#resistenciaAV").value; //240
 
    // Modulos de elasticidad (Mpa)
-   Ec = 17600;
-   Es = 200000;
-   n = document.querySelector("#nV").value; //9.3
+   Ec = document.querySelector("#EcV").value; //17600;
+   Es = document.querySelector("#EsV").value; //200000;
+   n = Es / Ec; //9.3
 
    // Momento máx kN.m
    M = document.querySelector("#momentoMaxV").value; //35

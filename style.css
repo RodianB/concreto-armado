@@ -22,14 +22,14 @@
    padding-right: 20px;
 }
 
-.math {
-   font-family: "Mathcad UniMath Prime", serif;
-   font-style: italic;
-   display: flex;
-}
-
+.math,
 .math span {
    font-family: "Mathcad UniMath Prime", serif;
+   src: url("/assets/MathcadUniMathPrime.otf");
+   font-size: 95%;
+}
+
+.italic {
    font-style: italic;
 }
 

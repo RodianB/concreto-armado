@@ -6,9 +6,6 @@
       <link rel="stylesheet" href="style.css" />
 
       <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/gh/aaaakshat/cm-web-fonts@latest/fonts.css" />
-      <script src="JS/app.js"></script>
-
-      <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/gh/aaaakshat/cm-web-fonts@latest/fonts.css" />
    </head>
 
    <body>
@@ -29,26 +26,29 @@
          <div>
             <form action="">
                <div class="wrap">
-                  <label for="baseV">Base</label>
-                  <input type="text" name="base" id="baseV" placeholder="b" />
+                  <label for="baseV">Base <span class="math">b (m)</span></label>
+                  <input type="text" name="base" id="baseV" placeholder="ej. 0.30" />
 
-                  <label for="alturaV">Altura</label>
-                  <input type="text" name="altura" id="alturaV" placeholder="h" />
+                  <label for="alturaV">Altura <span class="math">h (m)</span></label>
+                  <input type="text" name="altura" id="alturaV" placeholder="ej. 0.50" />
 
-                  <label for="baseV">Peralte efectivo</label>
-                  <input type="text" name="peralte" id="peralteEfV" placeholder="d" />
+                  <label for="baseV">Peralte efectivo <span class="math">d (m)</span></label>
+                  <input type="text" name="peralte" id="peralteEfV" placeholder="ej. 0.44" />
 
-                  <label for="resistenciaCV">Resistencia del Concreto</label>
-                  <input type="text" name="resistenciaConcreto" id="resistenciaCV" placeholder="fcc" />
+                  <label for="resistenciaCV">Resistencia del Concreto <span class="math" id="fcc"></span></label>
+                  <input type="text" name="resistenciaConcreto" id="resistenciaCV" placeholder="ej. 21.1" />
 
-                  <label for="resistenciaAV">Resistencia del Acero</label>
-                  <input type="text" name="resistenciaAcero" id="resistenciaAV" placeholder="fy" />
+                  <label for="resistenciaAV">Resistencia del Acero <span id="fy" class="math"></span></label>
+                  <input type="text" name="resistenciaAcero" id="resistenciaAV" placeholder="ej. 420" />
 
-                  <label for="nV">valor n</label>
-                  <input type="text" name="n" id="nV" placeholder="n" />
+                  <label for="nV">Modulo de Elasticidad del Concreto <span id="Ec" class="math"></span></label>
+                  <input type="text" name="moduloConcreto" id="EcV" placeholder="ej 21600" />
 
-                  <label for="momentoMaxV">Momento máximo que resiste la viga</label>
-                  <input type="text" name="MomentoMaximo" id="momentoMaxV" placeholder="M" />
+                  <label for="nV">Modulo de Elasticidad del Acero <span id="Es" class="math"></span></label>
+                  <input type="text" name="moduloACero" id="EsV" placeholder="ej. 200000" />
+
+                  <label for="momentoMaxV">Momento máximo que resiste la viga <span id="Mmax" class="math"></span></label>
+                  <input type="text" name="MomentoMaximo" id="momentoMaxV" placeholder="ej. 35" />
                </div>
                <div id="rellenar"></div>
                <button type="button" id="btnCalcular">Calcular</button>
@@ -56,9 +56,11 @@
          </div>
       </div>
       <div class="container">
-         <p id="answer" class="math symbol"></p>
+         <p id="answer" class="math italic"></p>
       </div>
 
       <footer></footer>
+
+      <script src="JS/app.js"></script>
    </body>
 </html>
