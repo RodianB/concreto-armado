@@ -14,18 +14,19 @@
    display: flex;
    align-items: center;
    justify-content: center;
-   flex-wrap: nowrap;
+   flex-wrap: wrap;
 }
 
 .flex {
-   width: 300px;
    padding-right: 20px;
+   width: 80%;
+   max-width: 300px;
 }
 
 .math,
 .math span {
    font-family: "Mathcad UniMath Prime", serif;
-   src: url("/assets/MathcadUniMathPrime.otf");
+   src: url("/assets/MathcadUniMathPrime.woff2");
    font-size: 95%;
 }
 
@@ -36,6 +37,7 @@
 .wrap {
    display: flex;
    flex-direction: column;
+   min-width: 300px;
 }
 
 input {
